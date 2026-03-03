@@ -1,6 +1,6 @@
 import React from "react";
 
-const TaskFilter = ({ filter, setFilter }) => {
+const TaskFilter = ({ filter, setFilter , searchTask,setSearchTask}) => {
   return (
     <section className="w-full p-4 ">
       <div className="flex justify-between max-w-6xl m-auto">
@@ -41,10 +41,12 @@ const TaskFilter = ({ filter, setFilter }) => {
             Completed
           </button>
         </div>
-
+           {/* Search */}
         <div className="w-full md:w-1/3 bg-white flex items-center gap-2 py-1 px-2 rounded-md shadow-md">
           <i className="ri-search-line text-gray-600 font-semibold"></i>
           <input
+             value={searchTask}
+             onChange={(e)=> setSearchTask(e.target.value)}
             className="outline-none"
             type="text"
             placeholder="Search tasks..."
