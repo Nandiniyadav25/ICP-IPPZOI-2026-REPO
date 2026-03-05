@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import AddTaskButton from "../Components/AddTaskButton";
 import AddTaskForm from "../Components/AddTaskForm";
 import Navbar from "../Components/Navbar";
@@ -6,27 +6,24 @@ import TaskFilter from "../Components/TaskFilter";
 import TaskList from "../Components/TaskList";
 
 const Home = () => {
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: "Design Landing Page",
-      due: "Tomorrow",
-      priority: "High",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "Fix Navbar UI",
-      due: "Today",
-      priority: "Medium",
-      completed: false,
-    },
-  ]);
+ const [tasks, setTasks] = useState(() => {
+  const savedTasks = localStorage.getItem("tasks");
+  return savedTasks ? JSON.parse(savedTasks) : [];
+});
+
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState("all");
   const [serachTask, setSearchTask] = useState("");
   const [darkMode, setDarkMode] = useState(false);
   const [editTask, setEditTask] = useState(null);
+
+  // LOAD from localStorage
+
+
+// SAVE to localStorage
+useEffect(() => {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}, [tasks]);
 
  const addTask = (taskData) => {
 
@@ -53,6 +50,7 @@ const Home = () => {
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
+  
   const filteredTasks = tasks.filter((task) => {
     if (filter === "completed" && !task.completed) return false;
     if (filter === "pending" && task.completed) return false;
